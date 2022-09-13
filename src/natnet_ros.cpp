@@ -33,6 +33,7 @@ int main( int argc, char **argv)
     
     // You must init before using the object to get required parameters from the rosparam server
     internal.Init(n);
+    ros::Duration(0.5).sleep();
 
     if (internal.rosparam.serverType == "unicast")
         kDefaultConnectionType = ConnectionType_Unicast;
