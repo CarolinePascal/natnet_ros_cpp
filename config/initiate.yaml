@@ -21,31 +21,60 @@ E: 0.04
 
 # Add all the object names in this list to get the head count and the names of the objects
 object_names:
-  - crazyflie1
-  - crazyflie2
+  - bouboule1
+  - bouboule2
+  - bouboule3
+  - bouboule4
 
 # Initial position of the object must be within the tracking tolerance (in meters).
 # marker_config and orientation is not used as of now. 
-crazyflie1:
+
+bouboule1:
   marker_config: 0 
   pose: 
     position:
-      - 0.0
-      - 0.0
-      - 0.048
+      - -1.04
+      - -0.76
+      - 0.10
     orientation:
       - 0.0
       - 0.0
       - 0.0
 
-crazyflie2:
-  marker_config: 0
+bouboule2:
+  marker_config: 0 
   pose: 
     position:
-      - 0.0
-      - -1.75
-      - 0.042
+      - -1.17
+      - -0.77
+      - 0.10
     orientation:
       - 0.0
       - 0.0
       - 0.0
+
+bouboule3:
+  marker_config: 0 
+  pose: 
+    position:
+      - -1.06
+      - -0.60
+      - 0.18
+    orientation:
+      - 0.0
+      - 0.0
+      - 0.0
+
+bouboule4:
+  marker_config: 0 
+  pose: 
+    position:
+      - -1.16
+      - -0.70
+      - 0.10
+    orientation:
+      - 0.0
+      - 0.0
+      - 0.0
+
+
