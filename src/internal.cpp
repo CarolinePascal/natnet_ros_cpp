@@ -130,7 +130,7 @@ void Internal::Info(NatNetClient* g_pClient, ros::NodeHandle &n)
                         // Creating publisher for the markers of the rigid bodies
                         if(rosparam.pub_rigid_body_marker)
                             this->RigidbodyMarkerPub[std::to_string(pRB->ID)+std::to_string(markerIdx+1)] = n.advertise<geometry_msgs::PointStamped>(body_name+"/marker"+std::to_string(markerIdx)+"/pose", 50);
-                        ROS_INFO_COND(rosparam.log_internals,  "\tMarker #%d:", markerIdx );
+                        ROS_INFO_COND(rosparam.log_internals,  "\tMarker #%d:", markerIdx+1 );
                         ROS_INFO_COND(rosparam.log_internals,  "\t\tPosition: %.2f, %.2f, %.2f", markerPosition[0], markerPosition[1], markerPosition[2] );
 
                         if ( markerRequiredLabel != 0 )
@@ -148,10 +148,18 @@ void Internal::Info(NatNetClient* g_pClient, ros::NodeHandle &n)
                 ROS_INFO_COND(rosparam.log_internals, "Camera Position (%3.2f, %3.2f, %3.2f)", pCamera->x, pCamera->y, pCamera->z);
                 ROS_INFO_COND(rosparam.log_internals, "Camera Orientation (%3.2f, %3.2f, %3.2f, %3.2f)", pCamera->qx, pCamera->qy, pCamera->qz, pCamera->qw);
             }
+            else if(pDataDefs->arrDataDescriptions[i].type == Descriptor_MarkerSet)
+            {
+                // MarkerSet
+                sMarkerSetDescription* pMS = pDataDefs->arrDataDescriptions[i].Data.MarkerSetDescription;
+                ROS_INFO_COND(rosparam.log_internals,"MarkerSet found : %s", pMS->szName);
+                for(int i=0; i < pMS->nMarkers; i++)
+                    ROS_INFO_COND(rosparam.log_internals,"\tMarker #%d : %s", i+1, pMS->szMarkerNames[i]);
+            }
             else
             {
-                ROS_WARN_COND(rosparam.log_internals, "Unknown data type detected.");
                 // Unknown
+                ROS_WARN_COND(rosparam.log_internals, "Unknown data type (%d) detected.", pDataDefs->arrDataDescriptions[i].type);   
             }
         }
         if (rosparam.pub_pointcloud)
@@ -340,7 +348,7 @@ void Internal::PubRigidbodyMarker(sMarker &data, Internal &internal)
     NatNet_DecodeID( data.ID, &modelID, &markerID );
 
     geometry_msgs::PointStamped msgMarkerPose;
-    msgMarkerPose.header.frame_id = std::to_string(modelID)+std::to_string(markerID);
+    msgMarkerPose.header.frame_id = "world";
     msgMarkerPose.header.stamp = ros::Time::now();
 
     msgMarkerPose.point.x = data.x;
